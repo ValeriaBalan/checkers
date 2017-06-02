@@ -1,14 +1,15 @@
-package chekers;
+package checkers;
 
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
-/**
- * Created by Rumpi on 6/2/2017.
- */
+
+
+
 public class Tile extends Rectangle {
     private Piece piece;
+
     public boolean hasPiece(){
         return piece != null;
     }
@@ -29,5 +30,19 @@ public class Tile extends Rectangle {
         setFill(light ? Color.valueOf("#feb") : Color.valueOf("#582") );
     }
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        Tile tile = (Tile) o;
+//
+//        return piece != null ? piece.equals(tile.piece) : tile.piece == null;
+//
+//    }
 
+    @Override
+    public int hashCode() {
+        return piece != null ? piece.hashCode() : 0;
+    }
 }

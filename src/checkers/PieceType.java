@@ -1,4 +1,4 @@
-package chekers;
+package checkers;
 
 /**
  * Created by Rumpi on 6/2/2017.

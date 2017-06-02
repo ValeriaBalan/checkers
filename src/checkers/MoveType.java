@@ -1,4 +1,4 @@
-package chekers;
+package checkers;
 
 
 public enum MoveType {

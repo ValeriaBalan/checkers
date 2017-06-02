@@ -1,4 +1,4 @@
-package chekers;
+package checkers;
 
 public class MoveResult {
     private MoveType type;
