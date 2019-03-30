@@ -1,4 +1,4 @@
-package checkers;
+package checkers.model;
 
 
 public enum MoveType {

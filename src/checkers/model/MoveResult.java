@@ -1,12 +1,12 @@
-package checkers;
+package checkers.model;
 
 public class MoveResult {
     private MoveType type;
-    private Piece piece;
+    private UIPiece UIPiece;
 
-    public MoveResult(MoveType type, Piece piece) {
+    public MoveResult(MoveType type, UIPiece UIPiece) {
         this.type = type;
-        this.piece = piece;
+        this.UIPiece = UIPiece;
     }
 
     public MoveResult (MoveType type){
@@ -17,12 +17,12 @@ public class MoveResult {
         return type;
     }
 
-    public Piece getPiece() {
-        return piece;
+    public UIPiece getUIPiece() {
+        return UIPiece;
     }
 
-    public void setPiece(Piece piece) {
-        this.piece = piece;
+    public void setUIPiece(UIPiece UIPiece) {
+        this.UIPiece = UIPiece;
     }
 
     public void setType(MoveType type) {
