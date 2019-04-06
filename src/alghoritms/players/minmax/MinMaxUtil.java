@@ -26,15 +26,12 @@ public class MinMaxUtil {
 
     public static int onePieceEval(Table table, Piece piece){
         int onePieceEval = 0;
-        onePieceEval += 2 * distanceFromMargin(piece.getVerticalPosition(), piece.getPieceColor());
-        if (piece.isQueen()){
-            onePieceEval += 20;
-        }
+        onePieceEval += piece.isQueen() ? 20 : 2 * distanceFromMargin(piece.getVerticalPosition(), piece.getPieceColor());
         if (vulnerablePosition(table, piece) && !inAttackPosition(table, piece)) {
-            onePieceEval -=10;
+            onePieceEval -=20;
         }
         if (inAttackPosition(table,piece)){
-            onePieceEval +=30;
+            onePieceEval +=20;
         }
         return onePieceEval;
     }

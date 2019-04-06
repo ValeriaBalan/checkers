@@ -1,4 +1,4 @@
-package checkers.model;
+package uicheckers.model;
 
 
 import alghoritms.model.PieceColor;
@@ -7,8 +7,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-import static checkers.uiGame.UIGame.HEIGHT;
-import static checkers.uiGame.UIGame.TILE_SIZE;
+import static uicheckers.uiGame.UIGame.HEIGHT;
+import static uicheckers.uiGame.UIGame.TILE_SIZE;
 
 
 public class UIPiece extends StackPane {

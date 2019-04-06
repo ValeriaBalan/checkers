@@ -11,11 +11,10 @@ import alghoritms.model.environment.Table;
 import alghoritms.players.Player;
 import alghoritms.players.consolePlayer.HumanPlayer;
 import alghoritms.print.Printer;
-import checkers.uiGame.UIGame;
+import uicheckers.uiGame.UIGame;
 
 import java.util.List;
 
-import static java.lang.Thread.sleep;
 
 public class Game extends Thread {
 
@@ -43,6 +42,7 @@ public class Game extends Thread {
         Printer.printTable(table);
         while (getPlayer() == null || !Actions.finishedGame(table)){
             System.out.println(playerTurn.stringValue() + " turn!!!");
+            sleep(1000);
             Player player = getPlayer();
             Move move = player.getNextMove(table);
 

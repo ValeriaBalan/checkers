@@ -1,11 +1,11 @@
-package checkers;
+package uicheckers;
 
 import alghoritms.game.Game;
 import alghoritms.model.PieceColor;
 import alghoritms.players.Player;
 import alghoritms.players.consolePlayer.HumanPlayer;
 import alghoritms.players.minmax.MinMaxAlgorithmPlayer;
-import checkers.uiGame.UIGame;
+import uicheckers.uiGame.UIGame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,15 +29,14 @@ public class CheckersApp extends Application{
 
     }
 
-    public  void playGame() throws InterruptedException {
+    public  void playGame(){
         Player whitePlayer = new HumanPlayer(PieceColor.WHITE);
         Player blackPlayer = new MinMaxAlgorithmPlayer(PieceColor.BLACK);
         Game game = new Game(Arrays.asList(whitePlayer, blackPlayer), uiGame);
         game.start();
-//        game.play();
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args){
         launch(args);
 
     }

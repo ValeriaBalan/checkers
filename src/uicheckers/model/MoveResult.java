@@ -1,4 +1,4 @@
-package checkers.model;
+package uicheckers.model;
 
 public class MoveResult {
     private MoveType type;

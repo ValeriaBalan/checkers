@@ -5,7 +5,8 @@ package alghoritms.actions;
 import alghoritms.model.PieceColor;
 import alghoritms.model.agent.Piece;
 import alghoritms.model.environment.Table;
-import checkers.uiGame.UIGame;
+import uicheckers.uiGame.UIGame;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +31,27 @@ public class GameMoves {
                 int opponentVerticalPosition = action.getVerticalMove() > 0 ? newVerticalPosition + 1 : newVerticalPosition - 1;
                 Actions.deletePieceFromTable(newTable, opponentVerticalPosition, opponentHorizontalPosition);
             }
+            oldVerticalPosition = newVerticalPosition;
+            oldHorizontalPosition = newHorizontalPosition;
             newHorizontalPosition += action.getHorizontalMove();
             newVerticalPosition +=action.getVerticalMove();
+            if (uiGame.length > 0){
+                updateUI(uiGame[0], oldHorizontalPosition, oldVerticalPosition, newHorizontalPosition, newVerticalPosition);
+
+            }
         }
         setPieceToNewPosition(newTable, piece, newVerticalPosition, newHorizontalPosition);
-        if (uiGame.length > 0){
-            uiGame[0].moveOnTable(oldHorizontalPosition, 7 - oldVerticalPosition, newHorizontalPosition, 7 - newVerticalPosition);
-        }
+
         return newTable;
+    }
+
+    public static void updateUI(UIGame uiGame, int oldHoriz, int oldVert, int newHoriz, int newVertical){
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                uiGame.moveOnTable(oldHoriz, 7 - oldVert, newHoriz, 7 - newVertical);
+            }
+        });
     }
 
     public static List<Move> getPossibleGameMovesForOnePlayer(Table table, PieceColor playerPieceColor){

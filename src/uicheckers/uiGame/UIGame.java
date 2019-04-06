@@ -1,10 +1,11 @@
-package checkers.uiGame;
+package uicheckers.uiGame;
 
 import alghoritms.actions.Actions;
 import alghoritms.actions.Move;
 
 import alghoritms.model.PieceColor;
-import checkers.model.*;
+import alghoritms.model.agent.Piece;
+import uicheckers.model.*;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.layout.Pane;
@@ -103,7 +104,7 @@ public class UIGame {
                 uiPiece.move(newX, newY);
                 board[x0][y0].setUIPiece(null);
                 board[newX][newY].setUIPiece(uiPiece);
-                lastMove = getMove(y0, 7 - x0, newY, 7 - newX, uiPiece);
+                lastMove = getMove(7 - y0,  x0, 7 - newY, newX, uiPiece);
                 changeTurn();
                 uiPiece.verifyIfKing(newY);
                 break;
@@ -115,7 +116,7 @@ public class UIGame {
                 board[toBoard(otherUIPiece.getOldX())][toBoard(otherUIPiece.getOldY())].setUIPiece(null);
                 pieceGroup.getChildren().remove(otherUIPiece);
                 uiPiece.verifyIfKing(newY);
-                lastMove = getMove(y0, 7 - x0, newY, 7 - newX, uiPiece);
+                lastMove = getMove(7 - y0,  x0, 7 - newY, newX, uiPiece);
                 if  (killMoveAvailableForOnePiece(newX, newY)){
                     this.uiPieceInUse = board[newX][newY].getUIPiece();
                 }
@@ -131,8 +132,12 @@ public class UIGame {
     public Move getMove(int oldX, int oldY, int newX, int newY, UIPiece uiPiece){
         Move move = getLastMove() != null && getLastMove().getPiece().getPieceColor() == uiPiece.getPiece().getPieceColor() ?
                 getLastMove() : new Move();
-        move.setPiece(uiPiece.getPiece());
-        move.getActions().add(Actions.getActionByPosition(oldX, oldY, oldX + (oldX-newX), oldY + (oldY - newY)));
+        Piece piece = uiPiece.getPiece();
+        move.getActions().add(Actions.getActionByPosition(oldX, oldY, newX, newY));
+        piece.setVerticalPosition(oldX);
+        piece.setHorizontalPosition(oldY);
+        move.setPiece(piece);
+
         return move;
     }
 

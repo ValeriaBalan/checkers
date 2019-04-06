@@ -1,26 +1,26 @@
-package checkers.model;
+package uicheckers.model;
 
 
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
-import static checkers.uiGame.UIGame.TILE_SIZE;
+import static uicheckers.uiGame.UIGame.TILE_SIZE;
 
 
 public class Tile extends Rectangle {
-    private UIPiece UIPiece;
+    private UIPiece uiPiece;
 
     public boolean hasPiece(){
-        return UIPiece != null;
+        return uiPiece != null;
     }
 
 
     public UIPiece getUIPiece() {
-        return UIPiece;
+        return uiPiece;
     }
 
-    public void setUIPiece(UIPiece UIPiece) {
-        this.UIPiece = UIPiece;
+    public void setUIPiece(UIPiece uiPiece) {
+        this.uiPiece = uiPiece;
     }
 
     public Tile(boolean light, int x, int y){
@@ -33,6 +33,6 @@ public class Tile extends Rectangle {
 
     @Override
     public int hashCode() {
-        return UIPiece != null ? UIPiece.hashCode() : 0;
+        return uiPiece != null ? uiPiece.hashCode() : 0;
     }
 }

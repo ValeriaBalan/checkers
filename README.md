@@ -1,1 +1,1 @@
-# checkers
+# uicheckers
