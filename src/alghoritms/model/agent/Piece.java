@@ -7,7 +7,7 @@ public class Piece {
     private int verticalPosition;
     private int horizontalPosition;
     private final PieceColor pieceColor;
-    boolean alive;
+    private boolean alive;
     private boolean queen;
 
     public Piece(int verticalPosition, int horizontalPosition, PieceColor pieceColor) {

@@ -14,8 +14,11 @@ import java.util.List;
 public abstract class Player {
     private List<Piece> currentPieces = new ArrayList<>();
     private final PieceColor pieceColor;
+    private int nrOfWins = 0;
 
     public abstract Move getNextMove(Table currentState);
+
+    public abstract String getPlayerType();
 
     public Player(PieceColor pieceColor) {
         this.pieceColor = pieceColor;
@@ -33,4 +36,15 @@ public abstract class Player {
         return pieceColor;
     }
 
+    public int getNrOfWins() {
+        return nrOfWins;
+    }
+
+    public void setNrOfWins(int nrOfWins) {
+        this.nrOfWins = nrOfWins;
+    }
+
+    public String getNrOfWinsForPlayer(){
+        return getPieceColor().stringValue() + " Player " + getPlayerType() + " : " + nrOfWins + " wins";
+    }
 }

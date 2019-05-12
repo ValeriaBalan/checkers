@@ -7,9 +7,14 @@ import alghoritms.actions.Move;
 import alghoritms.model.PieceColor;
 import alghoritms.model.environment.Table;
 import alghoritms.players.Player;
+import alghoritms.players.utils.AIAlgorithmsUtil;
+import alghoritms.players.utils.StateNode;
 
 import java.util.List;
 import java.util.Random;
+
+import static alghoritms.players.utils.AIAlgorithmsUtil.getAllNodesForCurrentState;
+import static alghoritms.players.utils.AIAlgorithmsUtil.getRandomMove;
 
 public class MinMaxAlgorithmPlayer extends Player {
 
@@ -24,49 +29,31 @@ public class MinMaxAlgorithmPlayer extends Player {
         if(random.nextDouble() < 0.1 && possibleMoves.size() > 1) {
             return getRandomMove(possibleMoves);
         }
-        MinMaxNode rootNode = getAllNodesForCurrentState(getPieceColor(), currentState);
+        StateNode rootNode = getAllNodesForCurrentState(getPieceColor(), currentState);
         rootNode = addValuesForNodes(getPieceColor(), rootNode);
         return rootNode.getMove();
     }
 
-    private Move getRandomMove(List<Move> possibleMoves) {
-        Random random = new Random();
-        int position = random.nextInt(possibleMoves.size() -1);
-        return possibleMoves.get(position);
+    @Override
+    public String getPlayerType() {
+        return "Min Max Player";
     }
 
-    public MinMaxNode getAllNodesForCurrentState(PieceColor playerPieceColor, Table table){
-        List<Move> movesForCurrentPlayer = GameMoves.getPossibleGameMovesForOnePlayer(table, playerPieceColor);
-        MinMaxNode rootNode = new MinMaxNode(playerPieceColor, false,table, null);
-        for (Move move : movesForCurrentPlayer){
-            Table newState = GameMoves.makeOneMove(table, move);
-            rootNode.getChildrenNodes().add(new MinMaxNode(playerPieceColor.oppositeColor(), false, newState, move));
-        }
-        for (MinMaxNode node: rootNode.getChildrenNodes()){
-            List<Move> opponentPossibleMoves = GameMoves.getPossibleGameMovesForOnePlayer(node.getState(), node.getPlayerPieceColor());
-            for (Move move : opponentPossibleMoves){
-                Table newState = GameMoves.makeOneMove(node.getState(), move);
-                node.getChildrenNodes().add(new MinMaxNode(playerPieceColor, true, newState, move));
-            }
-        }
 
-        return rootNode;
-    }
-
-    public MinMaxNode addValuesForNodes(PieceColor player, MinMaxNode rootNode){
+    public StateNode addValuesForNodes(PieceColor player, StateNode rootNode){
         int maxValue = Integer.MIN_VALUE;
         Move move = null;
-        for (MinMaxNode firstLevelChild : rootNode.getChildrenNodes()){
+        for (StateNode firstLevelChild : rootNode.getChildrenNodes()){
             int minValue = Integer.MAX_VALUE;
-            for (MinMaxNode secondLevelChild : firstLevelChild.getChildrenNodes()){
-                int value = MinMaxUtil.currentStateEvaluation(secondLevelChild.getState(), player);
+            for (StateNode secondLevelChild : firstLevelChild.getChildrenNodes()){
+                int value = AIAlgorithmsUtil.currentStateEvaluation(secondLevelChild.getState(), player);
                 secondLevelChild.setValue(value);
                 if (value < minValue){
                     minValue = value;
                 }
             }
             firstLevelChild.setValue(minValue);
-            if (minValue > maxValue){
+            if (minValue >= maxValue){
                 maxValue = minValue;
                 move = firstLevelChild.getMove();
             }

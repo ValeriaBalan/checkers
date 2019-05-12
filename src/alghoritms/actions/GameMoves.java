@@ -41,7 +41,6 @@ public class GameMoves {
             }
         }
         setPieceToNewPosition(newTable, piece, newVerticalPosition, newHorizontalPosition);
-
         return newTable;
     }
 
@@ -88,16 +87,17 @@ public class GameMoves {
         boolean attack = true;
         Piece newPiece = new Piece(piece);
         Action oldAction = action;
+        List<Action> attackActions = Actions.getAttackActions();
         while (attack){
             attack = false;
-            List<Action> attackActions = Actions.getAttackActions();
             int newHorizontalPosition = newPiece.getHorizontalPosition() + oldAction.getHorizontalMove();
             int newVerticalPosition = newPiece.getVerticalPosition() + oldAction.getVerticalMove();
             newPiece.setHorizontalPosition(newHorizontalPosition);
             newPiece.setVerticalPosition(newVerticalPosition);
             for (Action attackAction : attackActions){
-                if (Actions.possibleAttackAction(table, newPiece, attackAction)){
+                if (attackAction != oldAction.getOpositeAtackAction() && Actions.possibleAttackAction(table, newPiece, attackAction)){
                     chainedActions.add(attackAction);
+                    System.out.println("piece oriz: " + newPiece.getHorizontalPosition() + " vertic: " + newPiece.getVerticalPosition() + " new atack action: " + attackAction.stringValue());
                     oldAction = attackAction;
                     attack = true;
                     break;

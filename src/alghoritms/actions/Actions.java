@@ -1,5 +1,6 @@
 package alghoritms.actions;
 
+import alghoritms.game.Game;
 import alghoritms.model.PieceColor;
 import alghoritms.model.agent.Piece;
 import alghoritms.model.environment.Table;
@@ -164,8 +165,21 @@ public class Actions {
         return null;
     }
 
-    public static boolean finishedGame(Table table){
-        return wonGame(table) != null;
+    public static boolean finishedGame(Table table, Game game){
+        return tieConditionComplete(game,table) ||  wonGame(table) != null;
+    }
+
+    private static boolean tieConditionComplete(Game game, Table table){
+        if (game.getNrUnchangedState() >= 40) return true;
+        int nrOfWhitePieces = numberOfPieces(table, PieceColor.WHITE);
+        int nrOfBlackPieces = numberOfPieces(table, PieceColor.BLACK);
+        if (nrOfBlackPieces + nrOfWhitePieces == game.getNrUnchagedPieces()){
+            game.setNrUnchangedState(game.getNrUnchangedState() + 1);
+        }else{
+            game.setNrUnchangedState(0);
+            game.setNrUnchagedPieces(nrOfBlackPieces + nrOfWhitePieces);
+        }
+        return false;
     }
 
     public static List<Action> getAttackActions(){

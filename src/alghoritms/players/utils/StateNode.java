@@ -1,4 +1,4 @@
-package alghoritms.players.minmax;
+package alghoritms.players.utils;
 
 
 
@@ -9,15 +9,15 @@ import alghoritms.model.environment.Table;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MinMaxNode {
+public class StateNode {
     private PieceColor playerPieceColor;
     private int value;
-    private List<MinMaxNode> childrenNodes = new ArrayList<>();
+    private List<StateNode> childrenNodes = new ArrayList<>();
     private boolean isLeaf;
     private Table state;
     private Move move;
 
-    public MinMaxNode(PieceColor playerPieceColor, boolean isLeaf, Table state, Move move) {
+    public StateNode(PieceColor playerPieceColor, boolean isLeaf, Table state, Move move) {
         this.playerPieceColor = playerPieceColor;
         this.isLeaf = isLeaf;
         this.state = state;
@@ -42,11 +42,11 @@ public class MinMaxNode {
         this.value = value;
     }
 
-    public List<MinMaxNode> getChildrenNodes() {
+    public List<StateNode> getChildrenNodes() {
         return childrenNodes;
     }
 
-    public void setChildrenNodes(List<MinMaxNode> childrenNodes) {
+    public void setChildrenNodes(List<StateNode> childrenNodes) {
         this.childrenNodes = childrenNodes;
     }
 

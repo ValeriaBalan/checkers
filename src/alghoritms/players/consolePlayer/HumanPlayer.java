@@ -26,4 +26,9 @@ public class HumanPlayer extends Player {
         System.out.println("white made a move");
         return UIGame.getLastMove();
     }
+
+    @Override
+    public String getPlayerType() {
+        return "Human player";
+    }
 }

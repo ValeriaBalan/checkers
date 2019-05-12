@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="nd4j-native-api-0.9.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/nd4j-native-api-0.9.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

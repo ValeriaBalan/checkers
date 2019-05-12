@@ -15,12 +15,13 @@ public class UIGame {
     public static final int TILE_SIZE = 80;
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
-    private Group tileGroup = new Group();
-    private Group pieceGroup = new Group();
-    private Tile[][] board = new Tile[WIDTH][HEIGHT];
+    private Group tileGroup;
+    private Group pieceGroup;
+    private Tile[][] board;
     private static PieceColor turn;
     private UIPiece uiPieceInUse;
     private static Move lastMove;
+    private Pane rootPane;
 
     public UIPiece getUIPieceInUse() {
         return uiPieceInUse;
@@ -47,9 +48,18 @@ public class UIGame {
     }
 
     public Parent createContent() {
-        Pane root = new Pane();
-        root.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
-        root.getChildren().addAll(tileGroup, pieceGroup);
+        rootPane = new Pane();
+        initRootPane();
+        return rootPane;
+    }
+
+    public void initRootPane(){
+        board = new Tile[WIDTH][HEIGHT];
+        tileGroup = new Group();
+        pieceGroup = new Group();
+        rootPane.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
+        rootPane.getChildren().clear();
+        rootPane.getChildren().addAll(tileGroup, pieceGroup);
 
         for (int y = 0; y < HEIGHT; y++ ){
             for (int x = 0; x < WIDTH; x++){
@@ -72,8 +82,9 @@ public class UIGame {
                 }
             }
         }
-
-        return root;
+        lastMove = null;
+        uiPieceInUse = null;
+        turn = PieceColor.WHITE;
     }
 
     public UIPiece makePiece(PieceColor type, int x, int y ){

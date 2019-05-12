@@ -1,28 +1,32 @@
-package alghoritms.players.minmax;
+package alghoritms.players.utils;
 
 
 
 import alghoritms.actions.Action;
 import alghoritms.actions.Actions;
 import alghoritms.actions.GameMoves;
+import alghoritms.actions.Move;
 import alghoritms.model.PieceColor;
 import alghoritms.model.agent.Piece;
 import alghoritms.model.environment.Table;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
-public class MinMaxUtil {
+public class AIAlgorithmsUtil {
 
     public static int currentStateEvaluation(Table table, PieceColor pieceColor){
         List<Piece> currentPlayerPieces = GameMoves.getPlayerPieces(table, pieceColor);
         List<Piece> opponentPlayerPieces = GameMoves.getPlayerPieces(table, pieceColor.oppositeColor());
-        if (currentPlayerPieces.isEmpty()) return Integer.MIN_VALUE;
-        if (opponentPlayerPieces.isEmpty()) return Integer.MAX_VALUE;
+        if (currentPlayerPieces.isEmpty()) return -100000;
+        if (opponentPlayerPieces.isEmpty()) return 100000;
         return currentPlayerPieces.stream().mapToInt(piece -> onePieceEval(table,piece)).sum()
                 - opponentPlayerPieces.stream().mapToInt(piece -> onePieceEval(table,piece)).sum();
 
     }
+
 
     public static int onePieceEval(Table table, Piece piece){
         int onePieceEval = 0;
@@ -86,6 +90,39 @@ public class MinMaxUtil {
     private static int distanceFromMargin(int verticalPosition, PieceColor pieceColor){
         return pieceColor == PieceColor.WHITE ? verticalPosition : 7 - verticalPosition;
     }
+
+    public static StateNode getAllNodesForCurrentState(PieceColor playerPieceColor, Table table){
+        List<Move> movesForCurrentPlayer = GameMoves.getPossibleGameMovesForOnePlayer(table, playerPieceColor);
+        StateNode rootNode = new StateNode(playerPieceColor, false,table, null);
+        for (Move move : movesForCurrentPlayer){
+            Table newState = GameMoves.makeOneMove(table, move);
+            rootNode.getChildrenNodes().add(new StateNode(playerPieceColor.oppositeColor(), false, newState, move));
+        }
+        for (StateNode node: rootNode.getChildrenNodes()){
+            List<Move> opponentPossibleMoves = GameMoves.getPossibleGameMovesForOnePlayer(node.getState(), node.getPlayerPieceColor());
+            for (Move move : opponentPossibleMoves){
+                Table newState = GameMoves.makeOneMove(node.getState(), move);
+                node.getChildrenNodes().add(new StateNode(playerPieceColor, true, newState, move));
+            }
+        }
+
+        return rootNode;
+    }
+
+    public static Move possibleMoveForPiece(Table currentState, Piece piece, Action selectedAction){
+        List<Move> movesForOnePiece = GameMoves.movesForOnePiece(currentState, piece);
+        if (movesForOnePiece.stream().anyMatch(Move::getAttack)) {
+            movesForOnePiece = movesForOnePiece.stream().filter(Move::getAttack).collect(Collectors.toList());
+        }
+        return movesForOnePiece.stream().filter(move -> move.getActions().get(0).compareTo(selectedAction) == 0).findFirst().orElse(null);
+    }
+
+    public static Move getRandomMove(List<Move> possibleMoves) {
+        Random random = new Random();
+        int position = random.nextInt(possibleMoves.size() -1);
+        return possibleMoves.get(position);
+    }
+
 
 
 }

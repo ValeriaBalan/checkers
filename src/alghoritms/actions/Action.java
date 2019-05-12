@@ -51,6 +51,20 @@ public enum Action {
         return Arrays.stream(actions).filter(action -> action.intValue == intValue).findFirst().orElse(null);
     }
 
+    public Action getOpositeAtackAction(){
+        switch (this){
+            case TAKE_PIECE_BACK_LEFT:
+                return TAKE_PIECE_FRONT_RIGHT;
+            case TAKE_PIECE_FRONT_LEFT:
+                return TAKE_PIECE_BACK_RIGHT;
+            case TAKE_PIECE_BACK_RIGHT:
+                return TAKE_PIECE_FRONT_LEFT;
+            case TAKE_PIECE_FRONT_RIGHT:
+                return TAKE_PIECE_BACK_LEFT;
+        }
+        return null;
+    }
+
 
 
 }

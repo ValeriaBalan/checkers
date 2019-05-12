@@ -81,6 +81,11 @@ public class ConsolePlayer extends Player {
         return move;
     }
 
+    @Override
+    public String getPlayerType() {
+        return "console player";
+    }
+
     private Move findMove(Table currentState, Piece piece, int actionIntValue){
         Action action = Action.getActionByIntValue(actionIntValue);
         List<Move> movesForOnePiece = GameMoves.movesForOnePiece(currentState, piece);
